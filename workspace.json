@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "projects": {
+    "flavorful-symphonies-front": {
+      "root": "apps/flavorful-symphonies-front",
+      "sourceRoot": "apps/flavorful-symphonies-front/src",
+      "projectType": "application",
+      "targets": {},
+      "tags": []
+    },
+    "flavorful-symphonies-api": {
+      "root": "apps/flavorful-symphonies-api",
+      "sourceRoot": "apps/flavorful-symphonies-api/src",
+      "projectType": "application",
+      "targets": {},
+      "tags": []
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "name": "flavorful-symphonies-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/flavorful-symphonies-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/flavorful-symphonies-api",
+        "main": "apps/flavorful-symphonies-api/src/main.ts",
+        "tsConfig": "apps/flavorful-symphonies-api/tsconfig.app.json",
+        "assets": ["apps/flavorful-symphonies-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/flavorful-symphonies-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": { "buildTarget": "flavorful-symphonies-api:build" },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/flavorful-symphonies-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/flavorful-symphonies-api/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
