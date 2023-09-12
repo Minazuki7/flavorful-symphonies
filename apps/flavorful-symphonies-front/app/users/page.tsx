@@ -1,10 +1,17 @@
+/* eslint-disable no-empty-pattern */
 import { Fragment } from 'react';
 import Head from 'next/head';
-import { useQuery } from '@apollo/client';
+import {
+  useQuery,
+  useSuspenseQuery,
+} from '@apollo/experimental-nextjs-app-support/ssr';
 import { test } from '@flavorful-symphonies/shared-core';
+import { getClient } from '../utils/apollo';
 
-function Users() {
-  // const { data } = useQuery(test);
+async function Users({}: any) {
+  const { data } = await getClient().query({ query: test });
+
+  console.log(data);
 
   return (
     <Fragment>
@@ -13,7 +20,7 @@ function Users() {
         <meta name="description" content="A list of all users." />
       </Head>
       <h1>All Users</h1>
-      {/* <div>{data.test}</div> */}
+      <div className="bg-white">{data?.test}</div>
     </Fragment>
   );
 }
