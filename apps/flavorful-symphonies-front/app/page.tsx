@@ -6,17 +6,18 @@ export default async function Index() {
    *
    * Note: The corresponding styles are in the ./index.css file.
    */
+
   return (
     <div className={styles.page}>
-      <div className="wrapper">
+      <div className="wrapper ">
         <div className="container">
           <div id="welcome">
             <h1>
               <span> Hello there, </span>
-              Welcome flavorful-symphonies 👋
+              Welcome flavorful-symphonies 👋 here
             </h1>
           </div>
-
+          <h1 className=" text-red-800 bg-purple-600"> HEREE </h1>
           <div id="hero" className="rounded">
             <div className="text-container">
               <h2>

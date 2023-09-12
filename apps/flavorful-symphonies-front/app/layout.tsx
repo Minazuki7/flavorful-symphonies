@@ -1,4 +1,6 @@
+import React from 'react';
 import './global.css';
+import { ApolloWrapper } from './ApolloWarpper';
 
 export const metadata = {
   title: 'Welcome to flavorful-symphonies',
@@ -12,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-red-900">
+        <ApolloWrapper>{children}</ApolloWrapper>
+      </body>
     </html>
   );
 }
