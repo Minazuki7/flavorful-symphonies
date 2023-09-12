@@ -1,4 +1,7 @@
 /* eslint-disable no-empty-pattern */
+// IN CLIENT RENDRING USE CLIENT / useQUERY / NO ASYN
+// IN SERVER await + async  + no use client
+
 import { Fragment } from 'react';
 import Head from 'next/head';
 import {
@@ -6,21 +9,20 @@ import {
   useSuspenseQuery,
 } from '@apollo/experimental-nextjs-app-support/ssr';
 import { test } from '@flavorful-symphonies/shared-core';
-import { getClient } from '../utils/apollo';
+import { client, getClient } from '../utils/apollo';
 
 async function Users({}: any) {
   const { data } = await getClient().query({ query: test });
-
-  console.log(data);
+  //const { data } = useSuspenseQuery<any>(test);
 
   return (
     <Fragment>
       <Head>
-        <title>All Users</title>
+        <title>All Uszzers</title>
         <meta name="description" content="A list of all users." />
       </Head>
       <h1>All Users</h1>
-      <div className="bg-white">{data?.test}</div>
+      <div className="bg-purple-300">{data.test}</div>
     </Fragment>
   );
 }

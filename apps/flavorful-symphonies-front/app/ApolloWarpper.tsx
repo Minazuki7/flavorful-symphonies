@@ -9,7 +9,6 @@ import {
   SSRMultipartLink,
 } from '@apollo/experimental-nextjs-app-support/ssr';
 import { apiUrl } from './utils/vars';
-import { registerApolloClient } from '@apollo/experimental-nextjs-app-support/rsc';
 
 // have a function to create a client for you
 function makeClient() {
