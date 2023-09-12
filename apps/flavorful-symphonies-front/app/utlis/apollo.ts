@@ -1,16 +1,18 @@
-/* eslint-disable no-console */
+// /* eslint-disable no-console */
 import {
   ApolloClient,
   InMemoryCache,
   ApolloLink,
   Operation,
   createHttpLink,
+  HttpLink,
 } from '@apollo/client';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { onError } from '@apollo/client/link/error';
-import log from './log';
+import { logger } from '@flavorful-symphonies/shared-core';
 import { Observable } from 'zen-observable-ts';
 import { apiUrl } from '../utlis/vars';
+import { registerApolloClient } from '@apollo/experimental-nextjs-app-support/rsc';
 
 let token = '';
 
@@ -52,16 +54,28 @@ export const client = new ApolloClient({
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path }) =>
-          log.error(
+          logger.error(
             `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
           )
         );
       }
-      if (networkError) log.error(`[Network error]: ${networkError}`);
+      if (networkError) logger.error(`[Network error]: ${networkError}`);
     }),
     createHttpLink({
       uri: apiUrl || 'http://localhost:3333/graphql',
     }),
   ]),
   cache: new InMemoryCache(),
+});
+export const { getClient } = registerApolloClient(() => {
+  return new ApolloClient({
+    cache: new InMemoryCache(),
+    link: new HttpLink({
+      // this needs to be an absolute url, as relative urls cannot be used in SSR
+      uri: apiUrl || 'http://localhost:3333/graphql',
+      // you can disable result caching here if you want to
+      // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
+      // fetchOptions: { cache: "no-store" },
+    }),
+  });
 });
