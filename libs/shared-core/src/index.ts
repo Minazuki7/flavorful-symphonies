@@ -1,5 +1,5 @@
 import { TEST_QUERY } from '../src/lib/requests/user/index';
-import { client } from '../src/lib/requests/apollo';
+import log from './lib/utlis/log';
 
-export const apolloClient = client;
+export const logger = log;
 export const test = TEST_QUERY;

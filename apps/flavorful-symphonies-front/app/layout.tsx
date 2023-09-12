@@ -1,7 +1,6 @@
 import React from 'react';
-import { ApolloProvider } from '@apollo/client';
 import './global.css';
-import { apolloClient } from '@flavorful-symphonies/shared-core';
+import { ApolloWrapper } from './ApolloWarpper';
 
 export const metadata = {
   title: 'Welcome to flavorful-symphonies',
@@ -16,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-red-900">
-        <ApolloProvider client={apolloClient}>{children}</ApolloProvider>
+        <ApolloWrapper>{children}</ApolloWrapper>
       </body>
     </html>
   );
