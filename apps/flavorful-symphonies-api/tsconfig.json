@@ -7,7 +7,10 @@
 
     "paths": {
       "@config/*": ["apps/flavorful-symphonies-api/config/*"],
-      "@graphQl/*": ["apps/flavorful-symphonies-api/src/graphQl/*"]
+      "@graphQl/*": ["apps/flavorful-symphonies-api/src/graphQl/*"],
+      "@models/*": ["apps/flavorful-symphonies-api/src/models/*"],
+      "@middlewares/*": ["apps/flavorful-symphonies-api/src/middlewares/*"],
+      "@utils/*": ["apps/flavorful-symphonies-api/src/utils/*"]
     }
   },
   "references": [

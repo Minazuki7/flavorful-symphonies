@@ -1,7 +1,7 @@
 /* eslint-disable no-empty-pattern */
 // IN CLIENT RENDRING USE CLIENT / useQUERY / NO ASYN
 // IN SERVER await + async  + no use client
-
+'use client';
 import { Fragment } from 'react';
 import Head from 'next/head';
 import {
@@ -11,9 +11,9 @@ import {
 import { test } from '@flavorful-symphonies/shared-core';
 import { client, getClient } from '../utils/apollo';
 
-async function Users({}: any) {
-  const { data } = await getClient().query({ query: test });
-  //const { data } = useSuspenseQuery<any>(test);
+function Users({}: any) {
+  //const { data } = await getClient().query({ query: test });
+  const { data } = useSuspenseQuery<any>(test);
 
   return (
     <Fragment>
@@ -22,7 +22,7 @@ async function Users({}: any) {
         <meta name="description" content="A list of all users." />
       </Head>
       <h1>All Users</h1>
-      <div className="bg-purple-300">{data.test}</div>
+      <div className="bg-purple-500 text-white">{data.test}</div>
     </Fragment>
   );
 }
