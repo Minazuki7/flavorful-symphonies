@@ -6,7 +6,8 @@ import { UserInputError } from '@utils/errors';
 import hash from '@utils/hash';
 import Token, { TokenDocument, TOKEN_TYPE } from '@models/token';
 import { Types } from 'mongoose';
-import { UserDocument } from '@models/user';
+import User, { UserDocument } from '@models/user';
+import { generateTokenResponse } from './user.service';
 
 export interface MyContext {
   token: string | string[];
@@ -16,11 +17,11 @@ export interface MyContext {
 export interface AuthenticatedRequest extends Request {
   userId: string | null;
 }
-export async function generateToken(
+export const generateToken = async (
   user: string,
   type: TOKEN_TYPE,
   duration: Duration
-) {
+) => {
   const token = v4();
 
   const tokenHash = await hash(token);
@@ -34,9 +35,9 @@ export async function generateToken(
   });
 
   return { token, expires };
-}
+};
 
-export async function isTokenValid({
+export const isTokenValid = async ({
   token,
   user,
   type,
@@ -46,21 +47,19 @@ export async function isTokenValid({
   user: string | Types.ObjectId;
   type: TOKEN_TYPE;
   deleteToken?: boolean;
-}) {
-  async function isValid(
+}) => {
+  const isValid = async (
     document: TokenDocument,
     token: string,
     deleteToken: boolean
-  ) {
-    // INTRO NEED TO BE PURE TOKEN
-
+  ) => {
     if (token === document.token)
       if (!(await bcrypt.compare(token, document.token))) return undefined;
     if (deleteToken) {
       await Token.deleteOne({ _id: document.id });
     }
     return document;
-  }
+  };
   const documents = await Token.find({
     user,
     type,
@@ -73,4 +72,20 @@ export async function isTokenValid({
   if (!doc) throw new UserInputError('Invalid token', { token: 1 });
 
   return doc;
-}
+};
+export const Login = async (username: string, password: string) => {
+  const user = await User.findOne({
+    $or: [{ username }, { email: username }],
+  });
+
+  if (!user?.password || !(await bcrypt.compare(password, user.password))) {
+    throw new UserInputError('LOGIN.INCORRECT');
+  }
+
+  if (user && !user?.isActive) {
+    throw new UserInputError('LOGIN.BLOCKED');
+  }
+
+  const token = await generateTokenResponse(user?.id);
+  return { token, user };
+};

@@ -3,7 +3,6 @@ import { CreateUserInputType, UserType } from '../types';
 import User from '../../models/user';
 import { createUser } from '@graphQl/services/user.service';
 import { MyContext } from '@graphQl/services/auth.service';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 
 import { Authorized } from '@middlewares/auth';
 

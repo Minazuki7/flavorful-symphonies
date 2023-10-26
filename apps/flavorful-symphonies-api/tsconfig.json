@@ -3,7 +3,6 @@
   "files": [],
   "compilerOptions": {
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types", "./environment.d.ts"],
 
     "paths": {
       "@config/*": ["apps/flavorful-symphonies-api/config/*"],

@@ -1,12 +1,8 @@
 import { Resolver, Query, Arg, Mutation, Ctx } from 'type-graphql';
-import bcrypt from 'bcryptjs';
 
 import { TOKEN_TYPE } from '@models/token';
-import { isTokenValid, MyContext } from '@graphQl/services/auth.service';
-import User from '@models/user';
-import { UserInputError } from '@utils/errors';
+import { isTokenValid, Login, MyContext } from '@graphQl/services/auth.service';
 import { AuthType } from '@graphQl/types';
-import { generateTokenResponse } from '@graphQl/services/user.service';
 
 @Resolver()
 class AuthResolver {
@@ -32,20 +28,7 @@ class AuthResolver {
     @Arg('username') username: string,
     @Arg('password') password: string
   ) {
-    const user = await User.findOne({
-      $or: [{ username }, { email: username }],
-    });
-
-    if (!user?.password || !(await bcrypt.compare(password, user.password))) {
-      throw new UserInputError('LOGIN.INCORRECT');
-    }
-
-    if (user && !user?.isActive) {
-      throw new UserInputError('LOGIN.BLOCKED');
-    }
-
-    const token = await generateTokenResponse(user?.id);
-    return { token };
+    return await Login(username, password);
   }
 
   @Mutation(() => String)
