@@ -2,6 +2,9 @@ import { ObjectType, Field, ID, Float, Int, InputType } from 'type-graphql';
 
 @ObjectType()
 class UserProfileType {
+  @Field(() => ID)
+  _id: string;
+
   @Field({ nullable: true })
   name?: string;
 
@@ -40,25 +43,42 @@ class UserType {
 
   @Field()
   password: string;
+  @Field()
+  isActive: boolean;
 
   @Field(() => [String], { nullable: true })
   roles?: string[];
 
-  // @Field(() => UserProfileType, { nullable: true })
-  // profile?: UserProfileType;
-
-  // @Field(() => UserTokensType, { nullable: true })
-  // tokens?: UserTokensType;
+  @Field(() => UserProfileType, { nullable: true })
+  profile?: UserProfileType;
 }
 
-// @ObjectType()
-// class UserTokensType {
-//   @Field({ nullable: true })
-//   accessToken?: string;
+@InputType()
+class CreateUserProfileInputType {
+  @Field({ nullable: true })
+  name?: string;
 
-//   @Field({ nullable: true })
-//   refreshToken?: string;
-// }
+  @Field({ nullable: true })
+  bio?: string;
+
+  @Field({ nullable: true })
+  profilePicture?: string;
+
+  @Field(() => [String], { nullable: true })
+  preferences?: string[];
+
+  @Field(() => [String], { nullable: true })
+  dietaryRestrictions?: string[];
+
+  @Field(() => Float, { nullable: true })
+  averageRating?: number;
+
+  @Field(() => Int, { nullable: true })
+  likesCount?: number;
+
+  @Field(() => Int, { nullable: true })
+  followersCount?: number;
+}
 
 @InputType()
 class CreateUserInputType {
@@ -74,35 +94,13 @@ class CreateUserInputType {
   @Field(() => [String], { nullable: true })
   roles?: string[];
 
-  // @Field(() => CreateUserProfileInputType, { nullable: true })
-  // profile?: CreateUserProfileInputType;
+  @Field(() => CreateUserProfileInputType, { nullable: true })
+  profile?: CreateUserProfileInputType;
 }
 
-// @InputType()
-// class CreateUserProfileInputType {
-//   @Field({ nullable: true })
-//   name?: string;
-
-//   @Field({ nullable: true })
-//   bio?: string;
-
-//   @Field({ nullable: true })
-//   profilePicture?: string;
-
-//   @Field(() => [String], { nullable: true })
-//   preferences?: string[];
-
-//   @Field(() => [String], { nullable: true })
-//   dietaryRestrictions?: string[];
-
-//   @Field(() => Float, { nullable: true })
-//   averageRating?: number;
-
-//   @Field(() => Int, { nullable: true })
-//   likesCount?: number;
-
-//   @Field(() => Int, { nullable: true })
-//   followersCount?: number;
-// }
-
-export { UserType, CreateUserInputType };
+export {
+  UserType,
+  CreateUserInputType,
+  CreateUserProfileInputType,
+  UserProfileType,
+};

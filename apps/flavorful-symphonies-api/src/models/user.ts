@@ -1,30 +1,30 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, InferSchemaType } from 'mongoose';
 
-// Define the interface representing a User document
 interface IUser extends Document {
   username: string;
   email: string;
   password: string;
   roles: string[];
+  isActive: boolean;
   profile: {
-    name: string;
-    bio: string;
-    profilePicture: string;
-    preferences: string[];
-    dietaryRestrictions: string[];
-    averageRating: number;
-    likesCount: number;
-    followersCount: number;
+    name?: string;
+    bio?: string;
+    profilePicture?: string;
+    preferences?: string[];
+    dietaryRestrictions?: string[];
+    averageRating?: number;
+    likesCount?: number;
+    followersCount?: number;
   };
 }
 
-// Define the schema for the User model
 const userSchema: Schema = new Schema({
   username: {
     type: String,
     required: true,
     unique: true,
   },
+  isActive: { type: Boolean, default: true },
   email: {
     type: String,
     required: true,
@@ -47,7 +47,7 @@ const userSchema: Schema = new Schema({
   },
 });
 
-// Create and export the User model
 const User = mongoose.model<IUser>('User', userSchema);
+export type UserDocument = Document & InferSchemaType<typeof userSchema>;
 
 export default User;
